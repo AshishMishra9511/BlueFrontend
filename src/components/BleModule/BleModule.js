@@ -1,5 +1,4 @@
 import {   
-    Platform,
     Alert,
 } from 'react-native'
 import { BleManager } from 'react-native-ble-plx';
@@ -165,14 +164,15 @@ export default class BleModule{
     read(index){
         return new Promise( (resolve, reject) =>{
             this.manager.readCharacteristicForDevice(this.peripheralId,this.readServiceUUID[index], this.readCharacteristicUUID[index])
-                .then(characteristic=>{                    
+                .then(characteristic=>{      
+                    console.warn("read"+characteristic.value);              
                     let buffer = Buffer.from(characteristic.value,'base64');  
                     let value = buffer.toString();                 
-                    console.log('read success',value);
+                    console.warn('read success',value);
                     // console.log('read success',characteristic.value);
                     resolve(value);     
                 },error=>{
-                    console.log('read fail: ',error);
+                    // console.log('read fail: ',error);
                     this.alert('read fail: ' + error.reason);
                     reject(error);
                 })
